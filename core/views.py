@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import VisitModelForm, VisitEditModelForm
+from .forms import VisitModelForm
 from .models import Visit, Master, Service
 from django.http import JsonResponse
 from django.views.generic import (
