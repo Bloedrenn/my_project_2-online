@@ -1,0 +1,60 @@
+{% extends 'base_cabinet.html' %}
+{# Наследование базового шаблона кабинета #}
+{% block title %}{{ page_title }} | {{ block.super }}{% endblock %}
+{# Основной блок контента кабинета #}
+{% block cabinet_content %}
+<h2 class="text-center mb-4">{{ page_title }}</h2>
+{# Таблица со списком визитов #}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Имя клиента</th>
+                <th>Телефон</th>
+                <th>Мастер</th>
+                <th>Услуги</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Цикл по всем визитам #}
+            {% for visit in visits %}
+            <tr>
+                {# Форматирование даты и времени визита #}
+                <td>{{ visit.created_at|date:"d.m.Y H:i" }}</td>
+                <td>{{ visit.name }}</td>
+                <td>{{ visit.phone }}</td>
+                <td>{{ visit.master }}</td>
+                {# Вывод списка услуг с разделителями #}
+                <td>
+                    {% for service in visit.services.all %}
+                        {{ service.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                {# Отображение статуса визита в читаемом виде #}
+                <td>{{ visit.get_status_display }}</td>
+                {# Кнопки действий: просмотр, редактирование, удаление #}
+                <td class="d-flex gap-2">
+                    <a href="{% url 'cabinet:visit_detail' visit.pk %}" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <form method="post" action="{% url 'cabinet:visit_delete' visit.pk %}" class="d-inline" onsubmit="return confirm('Вы уверены?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {# Сообщение при отсутствии визитов #}
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">Записей не найдено</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

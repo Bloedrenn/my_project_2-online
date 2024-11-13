@@ -139,3 +139,6 @@ YOUR_PERSONAL_CHAT_ID = os.getenv("YOUR_PERSONAL_CHAT_ID")
 
 # Новая модель пользователя
 AUTH_USER_MODEL = 'users.CustomUser'
+
+
+LOGIN_URL = 'cabinet:login'
