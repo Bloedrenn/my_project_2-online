@@ -14,6 +14,7 @@ CABINET_MENU = [
     {'title': 'Новые заявки', 'url': reverse_lazy('cabinet:new_visits'), 'icon': 'bi-bell', 'active': False},
     {'title': 'Архив заявок', 'url': reverse_lazy('cabinet:visit_archive'), 'icon': 'bi-archive', 'active': False},
     {'title': 'Сменить пароль', 'url': reverse_lazy('cabinet:change_password'), 'icon': 'bi-key', 'active': False},
+    {'title': 'Выйти', 'url': reverse_lazy('cabinet:logout'), 'icon': 'bi-box-arrow-right', 'active': False},
 ]
 def get_cabinet_menu_context(current_url: str) -> dict:
     menu = []
@@ -126,3 +127,19 @@ class VisitCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context.update(get_cabinet_menu_context(self.request.path))
         return context
+
+
+# Эксперимент
+# from django.contrib.auth import logout
+# from django.shortcuts import redirect
+# from django.views import View
+
+# class LogoutView(View):
+#     """
+#     Мы сознательно заменили спец. вью LogoutView на обычную
+#     в рамках эксперимента выхода с сайта через get запрос
+#     (по умолнчаию это только через POST происходит в LogoutView)
+#     """
+#     def get(self, request):
+#         logout(request)
+#         return redirect(reverse_lazy('main'))
