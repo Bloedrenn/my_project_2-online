@@ -15,4 +15,5 @@ urlpatterns = [
     path('change-password/', views.ChangePasswordView.as_view(), name='change_password'),
     path('visit/<int:pk>/', views.VisitDetailView.as_view(), name='visit_detail'),
     path('visit/<int:pk>/delete/', views.VisitDeleteView.as_view(), name='visit_delete'),
+    path('visit/<int:pk>/update/', views.VisitUpdateView.as_view(), name='visit_update'),
 ]
