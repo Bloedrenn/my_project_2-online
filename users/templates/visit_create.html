@@ -1,0 +1,25 @@
+{% extends 'base_cabinet.html' %}
+{% block title %}Создание заявки | {{ block.super }}{% endblock %}
+{% block cabinet_content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Создание новой заявки</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-danger">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Создать заявку</button>
+            <a href="{% url 'cabinet:all_visits' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

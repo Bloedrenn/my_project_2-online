@@ -1,14 +1,15 @@
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from core.models import Visit
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
-from .forms import VisitUpdateForm
+from .forms import VisitUpdateForm, VisitCreateForm
 
 
 CABINET_MENU = [
+    {'title': 'Создать заявку', 'url': reverse_lazy('cabinet:create_visit'), 'icon': 'bi-plus-circle', 'active': False},
     {'title': 'Все заявки', 'url': reverse_lazy('cabinet:all_visits'), 'icon': 'bi-list-ul', 'active': False},
     {'title': 'Новые заявки', 'url': reverse_lazy('cabinet:new_visits'), 'icon': 'bi-bell', 'active': False},
     {'title': 'Архив заявок', 'url': reverse_lazy('cabinet:visit_archive'), 'icon': 'bi-archive', 'active': False},
@@ -108,6 +109,18 @@ class VisitUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('cabinet:visit_detail', kwargs={'pk': self.object.pk})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(get_cabinet_menu_context(self.request.path))
+        return context
+
+
+class VisitCreateView(LoginRequiredMixin, CreateView):
+    model = Visit
+    form_class = VisitCreateForm
+    template_name = 'visit_create.html'
+    success_url = reverse_lazy('cabinet:all_visits')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
