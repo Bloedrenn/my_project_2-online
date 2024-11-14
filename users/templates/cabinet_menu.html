@@ -5,4 +5,11 @@
         {{ item.title }}
     </a>
     {% endfor %}
+
+    <form method="post" action="{% url 'cabinet:logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-danger d-flex align-items-center" type="submit">
+            <i class="bi bi-box-arrow-right me-2"></i> Выйти
+        </button>
+    </form>
 </div>

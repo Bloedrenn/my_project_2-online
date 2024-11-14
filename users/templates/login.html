@@ -9,9 +9,21 @@
                     <h4 class="text-center">Вход в личный кабинет</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form method="post" novalidate>
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <div class="form-control">
+                                    {{ field.label }}
+                                </div>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
                         <div class="d-grid">
                             <button type="submit" class="btn btn-dark">Войти</button>
                         </div>

@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from .forms import VisitUpdateForm, VisitCreateForm
+from .forms import BootstrapAuthenticationForm
 
 
 CABINET_MENU = [
@@ -14,7 +15,6 @@ CABINET_MENU = [
     {'title': 'Новые заявки', 'url': reverse_lazy('cabinet:new_visits'), 'icon': 'bi-bell', 'active': False},
     {'title': 'Архив заявок', 'url': reverse_lazy('cabinet:visit_archive'), 'icon': 'bi-archive', 'active': False},
     {'title': 'Сменить пароль', 'url': reverse_lazy('cabinet:change_password'), 'icon': 'bi-key', 'active': False},
-    {'title': 'Выйти', 'url': reverse_lazy('cabinet:logout'), 'icon': 'bi-box-arrow-right', 'active': False},
 ]
 def get_cabinet_menu_context(current_url: str) -> dict:
     menu = []
@@ -31,6 +31,7 @@ def get_cabinet_menu_context(current_url: str) -> dict:
 
 class LoginView(BaseLoginView):
     template_name = 'login.html'
+    form_class = BootstrapAuthenticationForm
     next_page = reverse_lazy('cabinet:new_visits')
     redirect_authenticated_user = True
 
