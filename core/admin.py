@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Visit, Master, Service
+from .models import Visit, Master, Service, Review
 
 @admin.register(Visit)
 class VisitAdmin(admin.ModelAdmin):
@@ -17,3 +17,11 @@ class MasterAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price',)
     search_fields = ('name', 'description')
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('author_name', 'created_at', 'status')
+    list_filter = ('status', 'created_at')
+    search_fields = ('author_name', 'text')
+    list_editable = ('status',)

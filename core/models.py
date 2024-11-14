@@ -55,3 +55,26 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
+
+
+class Review(models.Model):
+    STATUS_CHOICES = [
+        (0, 'Не проверено'),
+        (1, 'Одобрено'),
+        (2, 'Отклонено'),
+        (3, 'Опубликовано'),
+    ]
+    
+    author_name = models.CharField(max_length=100, verbose_name='Имя автора')
+    text = models.TextField(verbose_name='Текст отзыва')
+    photo = models.ImageField(upload_to='reviews/photos/', blank=True, null=True, verbose_name='Фото')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='Статус')
+
+    def __str__(self):
+        return f'Отзыв от {self.author_name} ({self.get_status_display()})'
+    
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ['-created_at']
