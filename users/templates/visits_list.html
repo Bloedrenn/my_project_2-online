@@ -9,11 +9,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Дата</th>
+                <th class="d-none d-lg-table-cell">Дата</th>
                 <th>Имя клиента</th>
-                <th>Телефон</th>
-                <th>Мастер</th>
-                <th>Услуги</th>
+                <th class="d-none d-lg-table-cell">Телефон</th>
+                <th class="d-none d-lg-table-cell">Мастер</th>
+                <th class="d-none d-lg-table-cell">Услуги</th>
                 <th>Статус</th>
                 <th>Действия</th>
             </tr>
@@ -23,12 +23,14 @@
             {% for visit in visits %}
             <tr>
                 {# Форматирование даты и времени визита #}
-                <td>{{ visit.created_at|date:"d.m.Y H:i" }}</td>
+                <td class="d-none d-lg-table-cell">{{ visit.created_at|date:"d.m.Y H:i" }}</td>
                 <td>{{ visit.name }}</td>
-                <td>{{ visit.phone }}</td>
-                <td>{{ visit.master }}</td>
+                <td class="d-none d-lg-table-cell">
+                    <a href="tel:{{ visit.phone }}" class="text-decoration-none">{{ visit.phone }}</a>
+                </td>
+                <td class="d-none d-lg-table-cell">{{ visit.master }}</td>
                 {# Вывод списка услуг с разделителями #}
-                <td>
+                <td class="d-none d-lg-table-cell">
                     {% for service in visit.services.all %}
                         {{ service.name }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
