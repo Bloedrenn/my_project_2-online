@@ -1,6 +1,8 @@
 from django import forms
-from .models import Visit, Master, Service
+from .models import Visit, Master, Service, Review
 import re
+
+
 class VisitModelForm(forms.ModelForm):
     class Meta:
         model = Visit
@@ -47,3 +49,16 @@ class VisitModelForm(forms.ModelForm):
                 unsupported_services_str = ', '.join(unsupported_services)
                 self.add_error('services', f"Мастер {master.first_name} {master.last_name} не предоставляет следующие услуги: {unsupported_services_str}.")
         return cleaned_data
+    
+
+class ReviewModelForm(forms.ModelForm):
+    class Meta:
+        model = Review
+
+        fields = ['author_name', 'text', 'photo']
+
+        widgets = {
+            'author_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),
+        }

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import VisitModelForm
+from .forms import VisitModelForm, ReviewModelForm
 from .models import Visit, Master, Service, Review
 from django.http import JsonResponse
 from django.views.generic import (
@@ -23,6 +23,7 @@ MENU = [
         {'title': 'Мастера', 'url': '#masters', 'active': True},
         {'title': 'Услуги', 'url': '#services', 'active': True},
         {'title': 'Отзывы', 'url': '#reviews', 'active': True},
+        {'title': 'Оставить отзыв', 'url': reverse_lazy('review_create'), 'active': True},
         {'title': 'Запись на стрижку', 'url': '#orderForm', 'active': True},
     ]
 
@@ -73,3 +74,16 @@ class ThanksTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(get_menu_context())
         return context
+    
+
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewModelForm
+    template_name = 'review_form.html'
+    success_url = reverse_lazy('review_thanks')
+    extra_context = get_menu_context()
+
+
+class ReviewThanksTemplateView(TemplateView):
+    template_name = "review_thanks.html"
+    extra_context = get_menu_context()
