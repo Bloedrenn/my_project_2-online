@@ -4,19 +4,19 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>Заявка #{{ visit.id }}</h4>
-        <div class="btn-group">
+        <div class="d-flex gap-2">
             <a href="{% url 'cabinet:all_visits' %}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Назад
+                <i class="bi bi-arrow-left"></i> <span class='d-none d-sm-inline'>Назад</span>
             </a>
 
             <a href="{% url 'cabinet:visit_update' visit.pk %}" class="btn btn-outline-primary">
-                <i class="bi bi-pencil"></i> Редактировать
+                <i class="bi bi-pencil"></i> <span class='d-none d-sm-inline'>Редактировать</span>
             </a>
 
             <form method="post" action="{% url 'cabinet:visit_delete' visit.pk %}" class="d-inline" onsubmit="return confirm('Вы уверены?');">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-danger">
-                    <i class="bi bi-trash"></i> Удалить
+                    <i class="bi bi-trash"></i> <span class='d-none d-sm-inline'>Удалить</span>
                 </button>
             </form>
         </div>
