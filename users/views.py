@@ -18,14 +18,32 @@ CABINET_MENU = [
 ]
 def get_cabinet_menu_context(current_url: str) -> dict:
     menu = []
-    # Создаем новый список, а не модифицируем существующий
+    # Получаем количество заявок для бейджей
+    new_visits_count = Visit.objects.filter(status=0).count()
+    confirmed_visits_count = Visit.objects.filter(status=1).count()
+    
+    # Формируем список пунктов меню на основе константы CABINET_MENU
     for item in CABINET_MENU:
-        menu.append({
+        # Создаем словарь с параметрами для каждого пункта меню
+        menu_item = {
             'title': item['title'],
             'url': item['url'],
             'icon': item['icon'],
-            'active': item['url'] == current_url
-        })
+            # Определяем активный пункт меню путем сравнения URL
+            'active': item['url'] == current_url,
+            'badge_count': 0  # По умолчанию счетчик 0
+        }
+        
+        # Добавляем счетчики для соответствующих пунктов меню
+        if item['url'] == reverse_lazy('cabinet:new_visits'):
+            menu_item['badge_count'] = new_visits_count
+        elif item['url'] == reverse_lazy('cabinet:all_visits'):
+            menu_item['badge_count'] = confirmed_visits_count
+            
+        # Добавляем сформированный пункт меню в общий список
+        menu.append(menu_item)
+    
+    # Возвращаем готовый контекст для шаблона
     return {"cabinet_menu": menu}
 
 

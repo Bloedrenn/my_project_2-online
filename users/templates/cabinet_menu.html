@@ -1,8 +1,20 @@
+{# Контейнер с отступами и сеточным расположением элементов #}
 <div class="d-grid gap-2 p-3">
+    {# Цикл по элементам меню кабинета #}
     {% for item in cabinet_menu %}
-    <a href="{{ item.url }}" class="btn {% if item.active %}btn-dark{% else %}btn-secondary{% endif %} d-flex align-items-center">
-        <i class="bi {{ item.icon }} me-2"></i>
-        {{ item.title }}
+    {# Ссылка-кнопка с динамическим стилем (тёмная если активна, серая если нет) #}
+    <a href="{{ item.url }}" class="btn {% if item.active %}btn-dark{% else %}btn-secondary{% endif %} d-flex align-items-center justify-content-between">
+        {# Блок с иконкой и названием пункта меню #}
+        <span>
+            <i class="bi {{ item.icon }} me-2"></i>
+            {{ item.title }}
+        </span>
+        {# Счетчик уведомлений, отображается только если больше нуля #}
+        {% if item.badge_count > 0 %}
+            <span class="badge rounded-pill bg-danger">
+                {{ item.badge_count }}
+            </span>
+        {% endif %}
     </a>
     {% endfor %}
 
