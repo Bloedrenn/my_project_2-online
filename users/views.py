@@ -11,8 +11,8 @@ from .forms import BootstrapAuthenticationForm
 
 CABINET_MENU = [
     {'title': 'Создать заявку', 'url': reverse_lazy('cabinet:create_visit'), 'icon': 'bi-plus-circle', 'active': False},
-    {'title': 'Все заявки', 'url': reverse_lazy('cabinet:all_visits'), 'icon': 'bi-list-ul', 'active': False},
     {'title': 'Новые заявки', 'url': reverse_lazy('cabinet:new_visits'), 'icon': 'bi-bell', 'active': False},
+    {'title': 'Подтвержденные заявки', 'url': reverse_lazy('cabinet:all_visits'), 'icon': 'bi-list-ul', 'active': False},
     {'title': 'Архив заявок', 'url': reverse_lazy('cabinet:visit_archive'), 'icon': 'bi-archive', 'active': False},
     {'title': 'Сменить пароль', 'url': reverse_lazy('cabinet:change_password'), 'icon': 'bi-key', 'active': False},
 ]
@@ -60,7 +60,8 @@ class ProfileVisitsListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(status__in=[2, 3])
             self.page_title = 'Архив заявок'
         else:
-            self.page_title = 'Все заявки'
+            queryset = queryset.filter(status=1)
+            self.page_title = 'Подтвержденные заявки'
             
         return queryset
     
