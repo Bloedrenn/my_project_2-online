@@ -39,6 +39,8 @@ class VisitAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     # Названия функций отвечающих за новые кнопки в админке
     actions = ['set_unconfirmed', 'set_confirmed', 'set_cancelled', 'set_completed']
+    readonly_fields = ('created_at',)  # Показываем дату создания как нередактируемое поле
+    filter_horizontal = ('services',)   # Делаем удобный виджет выбора услуг
 
     # Декоратор нам нужен чтобы кнопка называлась не как функция а на русском языке
     @admin.action(description='Изменить статус на "Не подтверждена"')
