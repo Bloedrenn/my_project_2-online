@@ -34,6 +34,9 @@ class VisitAdmin(admin.ModelAdmin):
     list_filter = (TimeOfDayFilter, 'status', 'created_at', 'master')
     # По каким полям можно искать
     search_fields = ('name', 'phone', 'comment')
+    # Что будет кликабельным?
+    list_display_links = ('name', 'phone')
+    list_editable = ('status',)
     # Названия функций отвечающих за новые кнопки в админке
     actions = ['set_unconfirmed', 'set_confirmed', 'set_cancelled', 'set_completed']
 
