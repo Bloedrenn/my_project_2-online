@@ -26,6 +26,34 @@ class TimeOfDayFilter(admin.SimpleListFilter):
         return queryset
 
 
+class WordCountFilter(admin.SimpleListFilter):
+    title = 'Количество слов'
+    parameter_name = 'word_count'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('small', 'Короткие (до 10 слов)'),
+            ('medium', 'Средние (10-30 слов)'),
+            ('large', 'Длинные (более 30 слов)'),
+        )
+    
+    def queryset(self, request, queryset):
+        """
+        На SQLite это не работает нормально.
+        На PostgreSQL это работает нормально.
+        """
+        if self.value() == 'small':
+            return queryset.filter(text__regex=r'^(\s*\S+){0,10}\s*$')
+            
+        if self.value() == 'medium':
+            return queryset.filter(text__regex=r'^(\s*\S+){10,30}\s*$')
+            
+        if self.value() == 'large':
+            return queryset.filter(text__regex=r'^(\s*\S+){30,}\s*$')
+        
+        return queryset
+
+
 @admin.register(Visit)
 class VisitAdmin(admin.ModelAdmin):
     # list_display - те поля, которые будут отображаться в админке
@@ -73,7 +101,11 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('author_name', 'created_at', 'status')
-    list_filter = ('status', 'created_at')
+    list_display = ('author_name', 'text', 'word_count', 'created_at', 'status')
+    list_filter = (WordCountFilter, 'status', 'created_at')
     search_fields = ('author_name', 'text')
     list_editable = ('status',)
+
+    def word_count(self, obj):
+        return len(obj.text.split())
+    word_count.short_description = 'Количество слов'
