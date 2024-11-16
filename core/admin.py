@@ -32,7 +32,27 @@ class VisitAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'created_at', 'status')
     # фильтры - на основе полей создаются автоматичски
     list_filter = (TimeOfDayFilter, 'status', 'created_at', 'master')
+    # По каким полям можно искать
     search_fields = ('name', 'phone', 'comment')
+    # Названия функций отвечающих за новые кнопки в админке
+    actions = ['set_unconfirmed', 'set_confirmed', 'set_cancelled', 'set_completed']
+
+    # Декоратор нам нужен чтобы кнопка называлась не как функция а на русском языке
+    @admin.action(description='Изменить статус на "Не подтверждена"')
+    def set_unconfirmed(self, request, queryset):
+        queryset.update(status=0)
+
+    @admin.action(description='Изменить статус на "Подтверждена"')
+    def set_confirmed(self, request, queryset):
+        queryset.update(status=1)
+
+    @admin.action(description='Изменить статус на "Отменена"')
+    def set_cancelled(self, request, queryset):
+        queryset.update(status=2)
+        
+    @admin.action(description='Изменить статус на "Выполнена"')
+    def set_completed(self, request, queryset):
+        queryset.update(status=3)
 
 @admin.register(Master)
 class MasterAdmin(admin.ModelAdmin):
