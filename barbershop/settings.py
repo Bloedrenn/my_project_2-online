@@ -156,3 +156,12 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 
 LOGIN_URL = 'cabinet:login'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Название сайта",
+    "site_header": "Название в шапке",
+    "site_brand": "Бренд",
+    "welcome_sign": "Добро пожаловать в админ-панель",
+    "copyright": "Acme Ltd",
+}
