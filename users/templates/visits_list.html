@@ -45,12 +45,14 @@
                     <a href="{% url 'cabinet:visit_update' visit.pk %}" class="btn btn-sm btn-outline-secondary">
                         <i class="bi bi-pencil"></i>
                     </a>
+                    {% if perms.core.delete_visit %}
                     <form method="post" action="{% url 'cabinet:visit_delete' visit.pk %}" class="d-inline" onsubmit="return confirm('Вы уверены?');">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-sm btn-outline-danger">
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
+                    {% endif %}
                 </td>
             </tr>
             {# Сообщение при отсутствии визитов #}

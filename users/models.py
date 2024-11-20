@@ -13,3 +13,6 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    def is_manager(self):
+        return self.groups.filter(name='Managers').exists()

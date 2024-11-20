@@ -10,6 +10,20 @@
                     <img src="{{ user.avatar.url }}" alt="Avatar" class="rounded-circle img-fluid mb-3" style="max-width: 150px;">
                 {% endif %}
                 <h5>{{ user.get_full_name|default:user.username }}</h5>
+
+                <div class="d-flex justify-content-center gap-2">
+                    {% if user.is_superuser %}
+                        <span class="badge bg-danger">
+                            <i class="bi bi-shield-fill"></i> Администратор
+                        </span>
+                    {% endif %}
+                    
+                    {% if user.is_manager %}
+                        <span class="badge bg-primary">
+                            <i class="bi bi-person-badge"></i> Менеджер
+                        </span>
+                    {% endif %}
+                </div>
             </div>
             {% include 'cabinet_menu.html' %}
         </div>
