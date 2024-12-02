@@ -29,8 +29,24 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '185.192.247.168',
+    'pydeck.ru',
+    'www.pydeck.ru'
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://localhost',
+    'http://185.192.247.168',
+    'https://185.192.247.168',
+    'http://pydeck.ru',
+    'http://www.pydeck.ru',
+    'https://pydeck.ru',
+    'https://www.pydeck.ru'
+]
 
 # Application definition
 
