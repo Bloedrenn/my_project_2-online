@@ -42,5 +42,8 @@ jobs:
             echo "YOUR_PERSONAL_CHAT_ID='${{ secrets.YOUR_PERSONAL_CHAT_ID }}'" >> .env
             echo "VSE_GPT_API_KEY='${{ secrets.VSE_GPT_API_KEY }}'" >> .env
             
-            # Перезапускаем systemd сервис (с sudo и передачей пароля)
-            echo "${{ secrets.PASSWORD }}" | sudo -S systemctl restart config_file_name
+            # Собираем статику
+            python manage.py collectstatic --noinput
+            
+            # Перезапускаем gunicorn
+            echo "${{ secrets.PASSWORD }}" | sudo -S systemctl restart gunicorn
